@@ -1,25 +1,26 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
+import { useSubscription, useQuery } from '@apollo/react-hooks'
 
 function App() {
-  // const { loading, data, error } = useSubscription(
-  //   gql`
-  //     subscription {
-  //       info
-  //     }
-  //   `,
-  //   { onSubscriptionData: (...d) => console.log(d) },
-  // )
-  const { loading, data, error } = useQuery(
+  const { loading, data, error } = useSubscription(
+    gql`
+      subscription {
+        info
+      }
+    `,
+  )
+  const q = useQuery(
     gql`
       {
         go
       }
     `,
   )
+  console.log(q)
   console.log(loading, data, error)
-  return <div>App</div>
+  // if (loading) return 'loading'
+  return <div>App {data ? Object.keys(data).join(',') : ''}</div>
 }
 
 export default App

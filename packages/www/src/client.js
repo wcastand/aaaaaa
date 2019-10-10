@@ -7,12 +7,14 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import { getMainDefinition } from 'apollo-utilities'
 
 const GRAPHQL_ENDPOINT = 'ws://localhost:3031/graphql'
-const wsClient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
-  reconnect: true,
-  timeout: 60000,
-})
 
-const wsLink = new WebSocketLink(wsClient)
+const wsLink = () => {
+  const wsClient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
+    reconnect: true,
+    timeout: 60000,
+  })
+  return new WebSocketLink(wsClient)
+}
 const httpLink = new HttpLink({ uri: 'http://localhost:3031/graphql' })
 
 const link = split(
@@ -20,7 +22,7 @@ const link = split(
     const definition = getMainDefinition(query)
     return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
   },
-  wsLink,
+  wsLink(),
   httpLink,
 )
 
