@@ -12,6 +12,7 @@ const typeDefs = [
   }
   type SubReady {
     subscribed: Boolean
+    sid: ID
   }
   union SubResponse = SubReady | Photo
 

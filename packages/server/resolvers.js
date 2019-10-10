@@ -12,9 +12,6 @@ module.exports = {
       const { signal, message } = chans
 
       switch (operation) {
-        case 'ready':
-          put(signal, { ready: true })
-          break
         case 'reset':
           put(signal, { reset: true })
           break
@@ -70,7 +67,7 @@ module.exports = {
           channels.set(params.sid, { signal, message })
           return {
             async *[Symbol.asyncIterator]() {
-              yield { createsub: { subscribed: true } }
+              yield { createsub: { subscribed: true, sid: params.sid } }
               for await (const [chan, msg] of select(chans)) {
                 switch (chan) {
                   case signal:
