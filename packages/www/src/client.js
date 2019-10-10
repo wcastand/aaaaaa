@@ -15,8 +15,6 @@ const wsClient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
 const wsLink = new WebSocketLink(wsClient)
 const httpLink = new HttpLink({ uri: 'http://localhost:3031/graphql' })
 
-wsClient.maxConnectTimeGenerator.duration = () => wsClient.maxConnectTimeGenerator.max
-
 const link = split(
   ({ query }) => {
     const definition = getMainDefinition(query)
