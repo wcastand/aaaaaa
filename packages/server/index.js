@@ -11,6 +11,14 @@ const app = express()
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  subscriptions: {
+    onConnect: () => {
+      console.log('Connected.')
+    },
+    onDisconnect: () => {
+      console.log('Disconnected.')
+    },
+  },
 })
 
 server.applyMiddleware({
