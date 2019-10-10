@@ -3,11 +3,24 @@ const resolvers = require('./resolvers')
 
 const typeDefs = [
   `
+  type Photo {
+    albumId: ID
+    id: ID
+    title: String
+    url: String
+    thumbnailUrl: String
+  }
+  type SubReady {
+    subscribed: Boolean
+  }
+  union SubResponse = SubReady | Photo
+
   type Query {
-    go: String!
+    photos(sid: ID!, limit: Int, offset: Int): Boolean!
+    operatesub(sid: ID!, operation: String!): Boolean!
   }
   type Subscription {
-    info: String!
+    createsub(sid: ID!): SubResponse!
   }
 `,
 ]
